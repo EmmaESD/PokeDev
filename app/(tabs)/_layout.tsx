@@ -8,6 +8,7 @@ export default function TabLayout() {
         name="ListScreen"
         options={{
           title: "pokémons",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <Ionicons name="list-outline" size={24} color={color} />
           ),
@@ -17,6 +18,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <Ionicons name="home-outline" size={24} color={color} />
           ),
@@ -26,6 +28,7 @@ export default function TabLayout() {
         name="FightScreen"
         options={{
           title: "PokéFight",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <Ionicons name="game-controller-outline" size={24} color={color} />
           ),

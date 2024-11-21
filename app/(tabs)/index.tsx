@@ -1,15 +1,31 @@
-import { Text, View } from "react-native";
+import { useRandomPokemon } from "@/hook/useRandomPokemon";
+import { useRandomType } from "@/hook/useRandomType";
+import { FlatList, Text, View } from "react-native";
 
 export default function Index() {
+  const pokemons = useRandomPokemon();
+  const types = useRandomType();
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Hello Home Page</Text>
+    <View>
+      <FlatList
+        data={pokemons}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.name}</Text>
+          </View>
+        )}
+      />
+      <View>
+        <FlatList
+          data={types}
+          renderItem={({ item }) => (
+            <View>
+              <Text>{item.name}</Text>
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 }
