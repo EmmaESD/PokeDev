@@ -1,4 +1,6 @@
-import { useGetPokemonById } from "@/hook/useGetPokemonById";
+import { useShuffleArray } from "@/hook/useShuffleArray";
+import { useFocusEffect } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   ImageBackground,
@@ -8,17 +10,38 @@ import {
   View,
 } from "react-native";
 
-export default function detailsPokemonId() {
-  const pokemon = useGetPokemonById();
+const RandomPokemon = () => {
+  const [pokemon, setPokemon] = useState(null);
+
+  const shuffleArray = useShuffleArray();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
+
+      const fetchPokemon = async () => {
+        const pokemonJson = await fetch(
+          "https://pokebuildapi.fr/api/v1/pokemon"
+        );
+        const pokemonList = await pokemonJson.json();
+
+        if (isActive) {
+          const randomPokemon = shuffleArray(pokemonList)[0];
+          setPokemon(randomPokemon);
+        }
+      };
+
+      fetchPokemon();
+
+      return () => {
+        isActive = false; // Éviter les fuites de mémoire si l'utilisateur quitte l'écran avant la fin du fetch
+      };
+    }, []) // Pas de dépendances spécifiques ici
+  );
 
   if (!pokemon) {
-    return (
-      <View>
-        <Text>load...</Text>
-      </View>
-    );
+    return <Text style={styles.p}>Loading...</Text>;
   }
-
   return (
     <ImageBackground
       source={require("@/assets/images/bg.png")}
@@ -46,7 +69,7 @@ export default function detailsPokemonId() {
                 ))}
               </View>
               <View>
-                {pokemon.apiEvolutions.map((pokemonEvolution: number) => (
+                {pokemon.apiEvolutions.map((pokemonEvolution) => (
                   <Text
                     key={`evolId-${pokemonEvolution.pokedexId}`}
                     style={styles.p}
@@ -131,7 +154,9 @@ export default function detailsPokemonId() {
       </ScrollView>
     </ImageBackground>
   );
-}
+};
+
+export default RandomPokemon;
 
 const styles = StyleSheet.create({
   evolution: { display: "flex", flexDirection: "row", gap: 5 },

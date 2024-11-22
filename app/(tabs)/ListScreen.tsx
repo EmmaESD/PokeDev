@@ -1,3 +1,5 @@
+import { PokemonList } from "@/components/pokemonList";
+import { TypeList } from "@/components/typesList";
 import { useEffect, useState } from "react";
 import {
   FlatList,
@@ -8,45 +10,58 @@ import {
   Text,
   View,
 } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const ListScreen = () => {
-  const [pokemons, setPokemons] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const pokemonsJson = await fetch(
-        "https://pokebuildapi.fr/api/v1/pokemon"
-      );
-      const pokemons = await pokemonsJson.json();
-      setPokemons(pokemons);
-    })();
-  }, []);
+  const [activeComponent, setActiveComponent] = useState("pokemon");
   return (
-    <ImageBackground
-      source={require("@/assets/images/bg.png")}
-      resizeMode="cover"
-      style={styles.background}
-    >
-      <View style={styles.mainContainer}>
-        <Text style={styles.h2}>Pokémons List</Text>
-        <FlatList
-          data={pokemons}
-          renderItem={({ item }) => (
-            <View style={styles.cardContainer}>
-              <Image src={item.sprite} style={styles.image} />
-              <Text style={styles.p}>{item.name}</Text>
-              <Pressable style={styles.pressableDetails}>
-                <Text style={styles.p}>Details</Text>
-              </Pressable>
-            </View>
-          )}
-        />
-      </View>
-    </ImageBackground>
+    <GestureHandlerRootView>
+      <ImageBackground
+        source={require("@/assets/images/bg.png")}
+        resizeMode="cover"
+        style={styles.background}
+      >
+        <View style={styles.mainContainer}>
+          <View style={styles.pressableContainer}>
+            <Pressable
+              onPress={() => setActiveComponent("pokemon")}
+              style={styles.pressableButton1}
+            >
+              <Text style={styles.h2}>Pokémons</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setActiveComponent("type")}
+              style={styles.pressableButton2}
+            >
+              <Text style={styles.h2}>Types</Text>
+            </Pressable>
+          </View>
+          <View>
+            {activeComponent === "pokemon" ? <PokemonList /> : <TypeList />}
+          </View>
+        </View>
+      </ImageBackground>
+    </GestureHandlerRootView>
   );
 };
 
 const styles = StyleSheet.create({
+  pressableButton1: {
+    backgroundColor: "#72C84D",
+    padding: 20,
+    borderRadius: 10,
+  },
+  pressableButton2: {
+    backgroundColor: "#3899C3",
+    padding: 20,
+    borderRadius: 10,
+  },
+  pressableContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 20,
+  },
   background: {
     flex: 1,
   },

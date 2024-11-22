@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
 } from "react-native";
 
 export default function Index() {
@@ -18,6 +19,9 @@ export default function Index() {
   const handleNavigateToDetails = (id: Number) => {
     router.push(`/pokemon/${id}`);
   };
+  const handleNavigateToRandomPokemon = () => {
+    router.push(`/randomPokemon`);
+  };
 
   return (
     <ImageBackground
@@ -25,50 +29,64 @@ export default function Index() {
       resizeMode="cover"
       style={styles.background}
     >
-      <View style={styles.mainContainer}>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.h2}>Random Team</Text>
-          <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={pokemons}
-            renderItem={({ item }) => (
-              <View style={styles.cardContainer}>
-                <Text style={styles.p}>#{item.pokedexId}</Text>
-                <Text style={styles.p}>{item.name}</Text>
-                <Text style={styles.imageType}>{item.apiTypes.name}</Text>
-                <Image src={item.image} style={styles.image} />
-                <Pressable
-                  style={styles.pressableDetails}
-                  onPress={() => handleNavigateToDetails(item.id)}
-                >
-                  <Text style={styles.p}>Details</Text>
-                </Pressable>
-              </View>
-            )}
-          />
-        </View>
+      <ScrollView>
+        <View style={styles.mainContainer}>
+          <View style={styles.sliderContainer}>
+            <Text style={styles.h2}>Random Team</Text>
+            <FlatList
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              data={pokemons}
+              renderItem={({ item }) => (
+                <View style={styles.cardContainer}>
+                  <Text style={styles.p}>#{item.pokedexId}</Text>
+                  <Text style={styles.p}>{item.name}</Text>
+                  <Text style={styles.imageType}>{item.apiTypes.name}</Text>
+                  <Image src={item.image} style={styles.image} />
+                  <Pressable
+                    style={styles.pressableDetails}
+                    onPress={() => handleNavigateToDetails(item.id)}
+                  >
+                    <Text style={styles.p}>Details</Text>
+                  </Pressable>
+                </View>
+              )}
+            />
+          </View>
+          <View style={styles.pressableContainer}>
+            <Pressable
+              style={styles.pressableRandom}
+              onPress={handleNavigateToRandomPokemon}
+            >
+              <Text style={styles.h2}>Generate a random pokemon</Text>
+            </Pressable>
+          </View>
 
-        <View style={styles.sliderContainer}>
-          <Text style={styles.h2}>Types</Text>
-          <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={types}
-            renderItem={({ item }) => (
-              <View style={styles.cardContainer}>
-                <Text style={styles.p}>{item.name}</Text>
-                <Image src={item.image} style={styles.image} />
-              </View>
-            )}
-          />
+          <View style={styles.sliderContainer}>
+            <Text style={styles.h2}>Types</Text>
+            <FlatList
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              data={types}
+              renderItem={({ item }) => (
+                <View style={styles.cardContainer}>
+                  <Text style={styles.p}>{item.name}</Text>
+                  <Image src={item.image} style={styles.image} />
+                </View>
+              )}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  pressableContainer: {
+    display: "flex",
+    alignItems: "center",
+  },
   sliderContainer: {
     display: "flex",
     gap: 20,
@@ -119,5 +137,12 @@ const styles = StyleSheet.create({
   },
   p: {
     color: "#fff",
+  },
+  pressableRandom: {
+    backgroundColor: "#E43D1D",
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+    width: 200,
   },
 });

@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 const FightScreen = () => {
   return (
     <View>
-      <Text>Hello fight screen</Text>
+      <Text>Poké fight coming soon !</Text>
     </View>
   );
 };

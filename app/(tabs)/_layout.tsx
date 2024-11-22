@@ -34,6 +34,22 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="generation/[id]"
+        options={{
+          title: "PokéFight",
+          headerShown: false,
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="randomPokemon"
+        options={{
+          title: "PokéFight",
+          headerShown: false,
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }
