@@ -2,17 +2,17 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 
 export const useGetPokemonById = () => {
-  const [pokemons, setPokemons] = useState([]);
+  const [pokemon, setPokemon] = useState(null);
   const { id } = useLocalSearchParams();
 
   useEffect(() => {
     (async () => {
-      const pokemonsJson = await fetch(
+      const pokemonJson = await fetch(
         `https://pokebuildapi.fr/api/v1/pokemon/${id}`
       );
-      const pokemons = await pokemonsJson.json();
-      setPokemons(pokemons);
+      const pokemon = await pokemonJson.json();
+      setPokemon(pokemon);
     })();
   }, []);
-  return pokemons;
+  return pokemon;
 };
