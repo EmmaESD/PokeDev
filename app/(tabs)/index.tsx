@@ -1,6 +1,8 @@
 import { useRandomPokemon } from "@/hook/useRandomPokemon";
 import { useRandomType } from "@/hook/useRandomType";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -10,9 +12,12 @@ import {
   Text,
   View,
   ScrollView,
+  TextInput,
 } from "react-native";
 
 export default function Index() {
+  const [searchText, setSearchText] = useState("");
+
   const pokemons = useRandomPokemon();
   const types = useRandomType();
 
@@ -23,6 +28,10 @@ export default function Index() {
     router.push(`/randomPokemon`);
   };
 
+  const handleSearch = () => {
+    router.push(`/search/${searchText}`);
+  };
+
   return (
     <ImageBackground
       source={require("@/assets/images/bg.png")}
@@ -31,6 +40,20 @@ export default function Index() {
     >
       <ScrollView>
         <View style={styles.mainContainer}>
+          <View style={styles.inputContent}>
+            <TextInput
+              placeholder="Search"
+              placeholderTextColor={"#050B1B"}
+              style={styles.input}
+              onChangeText={setSearchText}
+              value={searchText}
+              editable={true}
+            />
+
+            <Pressable style={styles.pressable} onPress={handleSearch}>
+              <Ionicons name="search-outline" size={20} color="#fff" />
+            </Pressable>
+          </View>
           <View style={styles.sliderContainer}>
             <Text style={styles.h2}>Random Team</Text>
             <FlatList
@@ -83,6 +106,29 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
+  inputContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  input: {
+    backgroundColor: "#EBF3F5",
+    width: 200, // Augmentez légèrement la largeur
+    height: 40, // Augmentez la hauteur
+    borderRadius: 5,
+    fontSize: 14, // Taille de police plus lisible
+    paddingHorizontal: 10,
+  },
+  pressable: {
+    marginLeft: 10,
+    backgroundColor: "#E43D1D",
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   pressableContainer: {
     display: "flex",
     alignItems: "center",
