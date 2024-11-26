@@ -1,9 +1,14 @@
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { Pressable } from "react-native-gesture-handler";
 
 export const TypeList = () => {
   const [types, setTypes] = useState([]);
+
+  const navigateToType = (id: number) => {
+    router.push(`/type/${id}`);
+  };
 
   useEffect(() => {
     (async () => {
@@ -20,10 +25,12 @@ export const TypeList = () => {
         showsHorizontalScrollIndicator={false}
         data={types}
         renderItem={({ item }) => (
-          <View style={styles.cardContainer}>
-            <Image src={item.image} style={styles.image} />
-            <Text style={styles.p}>{item.name}</Text>
-          </View>
+          <Pressable onPress={() => navigateToType(item.name)}>
+            <View style={styles.cardContainer}>
+              <Image src={item.image} style={styles.image} />
+              <Text style={styles.p}>{item.name}</Text>
+            </View>
+          </Pressable>
         )}
       />
     </View>

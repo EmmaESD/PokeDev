@@ -43,6 +43,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="type/[id]"
+        options={{
+          title: "PokéFight",
+          headerShown: false,
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="randomPokemon"
         options={{
           title: "PokéFight",
